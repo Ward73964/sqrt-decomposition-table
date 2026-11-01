@@ -34,3 +34,10 @@ The table accepts empty arrays. An empty table has length 0, and any `rangeQuery
   - `get(index: number): number | undefined` — element at index, or `undefined` if out of range.
   - `set(index: number, value: number): void` — point update; throws `RangeError` if out of bounds.
   - `rangeQuery(left: number, right: number): number` — left-fold over the inclusive range `[left, right]`; throws `RangeError` for invalid bounds.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
